@@ -1,7 +1,6 @@
 import kafkaClient from "./service/kafkaclient.js";
 
 const adminInit = async (topic) => {
-  console.log("Admin INITIATED");
   const admin = kafkaClient.admin();
   console.log("Admin connecting...");
   await admin.connect();

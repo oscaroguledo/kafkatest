@@ -34,6 +34,10 @@ function callProducer() {
 
 // Call the function to start the interval
 //callProducer();
+<<<<<<< Updated upstream
 
 export default callProducer;
+=======
+>>>>>>> Stashed changes
 
+export default callProducer;
