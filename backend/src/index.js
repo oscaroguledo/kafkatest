@@ -1,5 +1,6 @@
 import express from "express";
 import consumerRun from "./consumer.js";
+import callProducer from "./producer.js";
 import { wss1, wss2, startWebSocketServers } from "./service/websocket.js";
 import adminInit from "./admin.js";
 const TOPIC = process.env.KAFKA_TOPIC;
@@ -12,6 +13,7 @@ const init = async () => {
   await startWebSocketServers();
   await consumerRun("realtime-data", [TOPIC], wss1);
   await consumerRun("realtime-data", [TOPIC], wss2);
+  await callProducer();
 };
 
 app.listen(PORT, async () => {

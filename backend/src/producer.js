@@ -1,13 +1,7 @@
 import { Partitioners } from "kafkajs";
 import kafkaClient from "./service/kafkaclient.js";
-import readline from "readline";
-import { stdin as input, stdout as output } from "node:process";
 
 const TOPIC = process.env.KAFKA_TOPIC;
-const rl = readline.createInterface({
-  input: input,
-  output: output,
-});
 
 const producerRun = async () => {
   const producer = kafkaClient.producer({
@@ -16,25 +10,28 @@ const producerRun = async () => {
 
   await producer.connect();
 
-  rl.setPrompt("Enter Prompt --> ");
-  rl.prompt();
+  
+  const [name, value, partition] = ["oscar","100","1"];
+  await producer.send({
+    topic: TOPIC,
 
-  rl.on("line", async (line) => {
-    const [name, value, partition] = line.split(" ");
-
-    await producer.send({
-      topic: TOPIC,
-
-      messages: [
-        {
-          partition: parseInt(partition),
-          value: JSON.stringify({ name, value }),
-        },
-      ],
-    });
-  }).on("close", async () => {
-    await producer.disconnect();
+    messages: [
+      {
+        partition: parseInt(partition),
+        value: JSON.stringify({ name, value }),
+      },
+    ],
   });
+  //await producer.disconnect();
 };
 
-producerRun();
+// Define a function to call producerRun() asynchronously every 5 seconds
+function callProducer() {
+  setInterval(async () => {
+      await producerRun();
+  }, 5000); // 5000 milliseconds = 5 seconds
+}
+
+// Call the function to start the interval
+callProducer();
+

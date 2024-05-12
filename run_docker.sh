@@ -8,7 +8,7 @@ fi
 
 # Check if the system is running Linux
 if [ "$(uname)" == "Linux" ]; then
-    echo "System OS: Linux Detected"
+    echo -e "\e[32m✓\e[0m System OS: Linux Detected"
     
     # getting the ip address
     # Get the IP address of the Linux system
@@ -30,12 +30,14 @@ if [ "$(uname)" == "Linux" ]; then
     fi
 
     cd ..
+    echo -e "\e[32m✓\e[0m Created env file for backend"
     # Store the IP address in a .env file
     echo "KAFKA_HOST=$ip_address" > .env
+    echo -e "\e[32m✓\e[0m Created env kafka"
 
 
 elif [ "$(expr substr $(uname -s) 1 5)" == "MINGW" ]; then
-    echo "System OS: Windows Detected"
+    echo -e "\e[32m✓\e[0m System OS: Windows Detected"
 
     # Get the IP address for Windows
     ip_address=$(ipconfig | grep IPv4 | grep -v "127.0.0.1" | awk '{print $NF}')
@@ -64,12 +66,14 @@ elif [ "$(expr substr $(uname -s) 1 5)" == "MINGW" ]; then
     fi
 
     cd ..
+    echo -e "\e[32m✓\e[0m Created env file for backend"
     # Store the IP address in a .env file
     echo "KAFKA_HOST=$ip_address" > .env
+    echo -e "\e[32m✓\e[0m Created env kafka"
 
 
 elif [ "$(uname)" == "Darwin" ]; then
-    echo "System OS: macOS Detected"
+    echo -e "\e[32m✓\e[0m System OS: macOS Detected"
 
     brew install node
 
@@ -93,12 +97,16 @@ elif [ "$(uname)" == "Darwin" ]; then
     fi
 
     cd ..
+    echo -e "\e[32m✓\e[0m Created env file for backend"
     # Store the IP address in a .env file
     echo "KAFKA_HOST=$ip_address" > .env
+    echo -e "\e[32m✓\e[0m Created env kafka"
 
 else
-    echo "Unsupported operating system"
-    echo "Ensure nodejs and npm are installed manually for your OS"
+    echo -e "\e[31mUnsupported operating system\e[0m"
+    echo -e "\e[33mEnsure nodejs and npm are installed manually for your OS\e[0m"
+    echo -e "\e[33mEnsure .env files are added manually for your OS\e[0m"
+
 fi
 
 
