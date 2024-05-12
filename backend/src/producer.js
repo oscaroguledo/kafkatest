@@ -33,5 +33,7 @@ function callProducer() {
 }
 
 // Call the function to start the interval
-callProducer();
+//callProducer();
+
+export default callProducer;
 
