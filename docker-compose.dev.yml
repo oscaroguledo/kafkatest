@@ -8,6 +8,7 @@ services:
     ports:
       - 2181:2181
     container_name: dowell-proctoring-zookeeper
+    restart: always
 
   kafka:
     image: confluentinc/cp-kafka:latest
@@ -16,6 +17,7 @@ services:
     ports:
       - 9092:9092
     container_name: dowell-proctoring-kafka
+    restart: always
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -35,8 +37,6 @@ services:
       - "5000"
     env_file:
       - ./backend/.env
-    networks:
-      - webnet
     command: ["npm", "run", "dev"]
     depends_on:
       - kafka
@@ -51,6 +51,4 @@ services:
       - "4173:4173"
     expose:
       - "4173"
-    networks:
-      - webnet
     command: ["npm", "run", "dev"]

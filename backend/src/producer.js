@@ -3,6 +3,7 @@ import kafkaClient from "./service/kafkaclient.js";
 import readline from "readline";
 import { stdin as input, stdout as output } from "node:process";
 
+const TOPIC = process.env.KAFKA_TOPIC;
 const rl = readline.createInterface({
   input: input,
   output: output,
@@ -22,7 +23,7 @@ const producerRun = async () => {
     const [name, value, partition] = line.split(" ");
 
     await producer.send({
-      topic: "thabishs-topic",
+      topic: TOPIC,
 
       messages: [
         {
