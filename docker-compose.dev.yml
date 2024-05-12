@@ -7,6 +7,7 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - 2181:2181
+    container_name: dowell-proctoring-zookeeper
 
   kafka:
     image: confluentinc/cp-kafka:latest
@@ -14,9 +15,42 @@ services:
       - zookeeper
     ports:
       - 9092:9092
+    container_name: dowell-proctoring-kafka
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.189.46:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://${KAFKA_HOST}:9092
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  dowell-proctoring-backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: dowell-proctoring-backend
+    restart: always
+    ports:
+      - "5000:5000"
+    expose:
+      - "5000"
+    env_file:
+      - ./backend/.env
+    networks:
+      - webnet
+    command: ["npm", "run", "dev"]
+    depends_on:
+      - kafka
+
+  dowell-proctoring-frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: dowell-proctoring-frontend
+    restart: always
+    ports:
+      - "4173:4173"
+    expose:
+      - "4173"
+    networks:
+      - webnet
+    command: ["npm", "run", "dev"]

@@ -4,7 +4,7 @@ import { wss1, wss2, startWebSocketServers } from "./service/websocket.js";
 import adminInit from "./admin.js";
 const app = express();
 
-const PORT = 8000;
+const PORT = 5000;
 
 const init = async () => {
   await adminInit();

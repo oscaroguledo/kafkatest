@@ -1,6 +1,9 @@
 .zed
 node_modules
 
+.env
+venv
+
 # dependencies
 /node_modules
 /.pnp

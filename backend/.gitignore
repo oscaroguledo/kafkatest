@@ -6,6 +6,8 @@
 .yarn/install-state.gz
 # testing
 /coverage
+.env
+venv
 
 .zed
 # next.js
