@@ -75,7 +75,7 @@ function startServer() {
   server.listen(PORT, async () => {
     console.log(`Listening to port ----> ${PORT}`);
     await adminInit(TOPIC);
-    await consumerRun("realtime-data", [TOPIC], io);
+    await consumerRun("realtime-data", [TOPIC]);
     await callProducer();
   });
 }
